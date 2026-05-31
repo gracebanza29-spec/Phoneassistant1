@@ -33,10 +33,15 @@ jobs:
           unzip -q /tmp/gradle.zip -d /opt/gradle
           echo "/opt/gradle/gradle-8.4/bin" >> $GITHUB_PATH
 
+      - name: List available tasks
+        run: gradle tasks --no-daemon 2>&1 | head -60
+        continue-on-error: true
+
       - name: Build APK
-        run: gradle :app:assembleDebug --no-daemon
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
 
       - uses: actions/upload-artifact@v4
+        if: success()
         with:
           name: PhoneAssistant-APK
           path: app/build/outputs/apk/debug/app-debug.apk
