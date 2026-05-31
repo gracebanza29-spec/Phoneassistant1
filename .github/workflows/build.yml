@@ -17,10 +17,11 @@ jobs:
           distribution: 'temurin'
 
       - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.4'
 
-      - run: chmod +x gradlew
-
-      - run: ./gradlew assembleDebug --no-daemon
+      - name: Build APK
+        run: gradle assembleDebug --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
